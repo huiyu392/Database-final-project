@@ -1,0 +1,229 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+}
+
+.container {
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    height: 100vh;
+   
+}
+
+h1 { /*titile*/
+margin-bottom: 20px;
+color: #333;
+}
+
+/* search(統一) *************************************/
+
+.search-container {
+    /* background-color: aqua; */
+      display: flex;
+      gap: 10px;
+      margin-right: 300px;
+      align-items: center;
+      margin-block: 20px;
+  }
+  
+.search-container input {
+    /* flex-grow: 0.3; */
+    width:250px;
+    height: 35px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-container button {
+    padding: 8px;
+    border: none;
+    height: 35px;
+    border-radius: 4px;
+    background-color: #d1d9e6;
+    cursor: pointer;
+    width: 70px;
+}
+
+.search-container button:hover {
+    background-color: #b8c4d8;  
+} 
+
+/*工具(統一)***************************************/
+.tool-container{
+    /* background-color: #348fc7; */
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+    justify-content: left;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  
+    background-color: #75b6cb;
+    color: black;
+    height: 40px;
+    margin-right: 20px;
+    
+  }
+  button:hover {
+  background-color: #24303e;
+  color: white;
+  }
+
+/*新增編輯彈窗(統一) ******************************/
+.modal-overlay {/* 背景遮罩樣式：當模態框顯示時，背景區域會變暗 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明的黑色背景 */
+    z-index: 999; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+   
+  /* 固定在畫面上，並使內容區域更明顯 */
+.modal-content {
+    background-color: #f4f6f9;
+    padding: 20px;
+    padding-inline: 50px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  
+    z-index: 1000; /*確保模態框內容在背景之上  */
+  }
+   
+  /* 表單標題 */
+.modal-content h3 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+  }
+
+  /* 表單內部間距 */
+.modal-content label {
+    display: block;
+    margin-left: 20px;
+    font-size: 1rem;
+    color: #555;
+    text-align: left;
+    white-space: nowrap;
+    margin-bottom: 10px;
+}
+
+  /* 輸入框 */
+.modal-content input,.modal-content select{
+    padding: 2px;
+    border-radius: 5px;
+    border: 1px solid #1d252e;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* 取消按鈕 */
+.modal-content button.cancel {
+    background-color: #7e7f89;
+    color: white;
+    border: none;  
+    margin-top:20px;
+  }
+  /* 確認按鈕 */
+.modal-content button.confirm {
+    background-color: #348fc7;
+    color: white;
+    border: none; 
+    margin-top: 5px;
+    margin-left: 30px;
+  }
+.modal-content button.cancel:hover , .modal-content button.confirm:hover{
+    background-color: #22202f;
+  }
+/* 模態視窗的關閉 */
+.modal-content button:focus {
+    outline: none;
+  }
+
+
+/*統計 視窗**************************/
+.stats-container .modal-content button{
+    padding: 0px 10px;
+    background-color: rgba(143, 196, 187, 0.707);
+}
+.stats-container .modal-content .close {
+    display: flex;
+    justify-content: right;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+  }
+.stats-container .modal-content h4{
+    display: flex;
+    margin-top: 5px;
+    justify-content: left;
+  }
+/* .stats-container .top{
+    display: flex;
+    align-items: end;
+}
+.stats-container .top button{
+    margin-left: 20px;
+}
+.filter label{
+    display: block;
+
+}
+.filter select, .filter input{
+    padding: 2px;
+    border-radius: 5px;
+    border: 1px solid #1d252e;
+    transition: border-color 0.3s ease;
+
+} */
+
+.stats-container .top button{
+  margin-left: 20px;
+}
+.filter {
+  /* background-color: #333; */
+  display: flex;
+  white-space:nowrap;
+  
+
+}
+.filter select, .filter input{
+  padding: 2px;
+  border-radius: 5px;
+  border: 1px solid #1d252e;
+  transition: border-color 0.3s ease;
+
+}
+
+/* 分隔线 */
+hr {
+    border: 1px solid #ddd;
+    margin: 20px 0;
+  } 
+  /* 统计数据样式 */
+.result p {
+    /* font-size: 14px;*/
+    display: flex;
+    text-align: left;
+    margin-bottom:5px;
+  }
+

@@ -1,0 +1,82 @@
+.home-container .container {
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    height: 100vh;
+  }
+
+.home-container h1 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+.home-container body{
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+}
+/**********************************************/
+.home-container .section1{
+    background-color: rgba(171, 207, 227, 0.74);
+    
+    padding: 10px 20px;
+    border-radius: 10px;
+    
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+
+}
+.home-container .section1 input,.home-container .section1 select{
+    padding: 5px;
+    width:150px;
+    border-radius: 5px;
+    border: 1px solid #1d252e;
+    transition: border-color 0.3s ease;
+    margin-right: 20px;
+
+}
+.home-container .section1 button{
+    /* background-color: #aaa; */
+    margin-left:50px;
+    align-items: right;
+}
+
+/*2*****************************/
+.home-container .section2{
+    background-color: rgba(171, 207, 227, 0.74);
+    
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+    
+    width:400px;
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+
+}
+.home-container .section2 select{
+    padding: 5px;
+    width:150px;
+    border-radius: 5px;
+    border: 1px solid #1d252e;
+    transition: border-color 0.3s ease;
+    margin-right: 20px;
+
+}
+.home-container .section2 button{
+    /* background-color: #aaa; */
+    margin-left:50px;
+   
+}
+
+/*3*****************************/
+.home-container .result-section{
+    margin-top: 20px;
+    background-color: rgba(255, 235, 135, 0.74);
+    
+    padding: 10px 20px;
+    border-radius: 10px;
+    
+    width:400px;
+    display: block;
+}

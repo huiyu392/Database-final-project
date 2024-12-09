@@ -1,0 +1,41 @@
+
+/* table ***********************************/
+/* 表格樣式 */
+#countryTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* 表頭樣式 */
+#countryTable thead tr {
+  background-color: #8b939e;
+  color: white;
+  text-align: left;
+}
+
+/* 單元格樣式 */
+#countryTable th, #countryTable td {
+  border: 1px solid #ddd;
+  padding: 12px;
+}
+
+/* 隔行換色 */
+#countryTable tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* 滑鼠懸停效果 */
+#countryTable tbody tr:hover {
+  background-color: #ddd;
+}
+
+/*以刪除列 變灰*/
+.deleted {
+  background-color: #f2f2f2; 
+  color: #aaa; 
+}
+
+.deleted button {
+  display: none; /* 隐藏编辑和删除按钮*/
+}

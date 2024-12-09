@@ -1,0 +1,59 @@
+
+/* table ***********************************/
+/* 表格樣式 */
+#dependentTable {
+    width: 120%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+  
+/* 表頭樣式 */
+#dependentTable thead tr {
+    background-color: #8b939e;
+    color: white;
+    text-align: left;
+}
+  
+/* 單元格樣式 */
+#dependentTable th, #dependentTable td {
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+  
+/* 隔行換色 */
+#dependentTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+  
+/* 滑鼠懸停效果 */
+#dependentTable tbody tr:hover {
+    background-color: #ddd;
+}
+
+/*修改、刪除按鈕*/
+#dependentTable td button{
+  padding:5px 10px;
+  margin:0px;
+}
+#dependentTable td button.edit {
+  background-color: #aac8e2;
+  width: 50px;
+}
+#dependentTable td button.delete {
+  background-color: #b8babb;
+  width: 50px;
+}
+#dependentTable td button:hover{
+  background-color: #24303e;
+  color: white;
+}
+
+/*以刪除列 變灰*/
+.deleted {
+  background-color: #f2f2f2; 
+  color: #aaa; 
+}
+
+.deleted button {
+  display: none; /* 隐藏编辑和删除按钮*/
+}

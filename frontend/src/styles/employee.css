@@ -1,0 +1,132 @@
+/*彈窗(統一) ************/
+.modal-content label.eid{
+    margin-left:5px;
+  }
+.modal-content label.date{
+    margin-left:-10px;
+  }
+.modal-content input.file{
+    width:170px;
+  }
+  
+
+/*版面**********************************/    
+.employee-grid {
+    
+    /* background-color: rgb(232, 120, 0); */
+    display:grid;
+    grid-template-columns: repeat(4, minmax(270px, 1fr));
+    gap: 15px;
+}
+.employee-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: block; 
+    font-size: 14px; 
+    line-height: 1.8;
+} 
+.employee-card h3{
+  font-size: 20px; 
+  line-height: 1.2;
+}
+.employee-container .inner-section{
+    height:70px;
+    padding: 10px;
+    margin-left: 5px;
+    flex-grow: 1;
+    align-content:center;/* 垂直 */
+  }
+
+.employee-container .top-card-section {
+    padding: 10px;
+    display: flex;
+    justify-content: left; 
+    
+  }
+.employee-container .mid-card-section{
+    /* background-color: lightblue; */
+    height: 40%;
+    padding: 10px;
+  }
+  
+.employee-container .bottom-card-section{
+  /* background-color: green; */
+  /* color: white; */
+  padding: 10px;
+}
+  
+.employee-container .employee-photo {
+    
+    background-color: rgb(55, 117, 35);
+    display: flex;
+    text-align: left;    
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+}
+.card-buttons {
+    /* background-color: #e40faf; */
+    display: flex;
+    justify-content: center;
+    gap:10px;
+}
+.card-buttons button {
+    background-color: #aac8e2;
+    width: 100px;
+    margin: 5px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px; 
+}
+.card-buttons button.delete{
+  
+  background-color: #b8babb;
+}
+.card-buttons button:hover {
+    background-color: #1e202b;
+    color:#fff;
+}
+
+
+/*統計****************************************/
+
+/* 标签和输入框对齐 */
+/* .employee-container .filters label {
+  /* background-color: #218838; */
+  /* display: block;
+  margin-left: 20px; */
+  /* margin-top: 5px;
+  font-size: 1rem;
+  color: #555;
+  width:200px;
+  display: flex;
+  align-items: left;
+  white-space: nowrap;
+}  */ 
+/* 
+.employee-container .filters select, .filters input {
+  padding: 2px;
+  border-radius: 5px;
+  border: 1px solid #1d252e;
+  transition: border-color 0.3s ease;
+  
+}
+
+.employee-container .filters button {
+  padding: 10px;
+  background-color:#348fc7;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.employee-container .filters button:hover {
+  background-color: #22202f;
+}
+ */
