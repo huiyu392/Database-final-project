@@ -72,12 +72,6 @@ func CreateCountry(w http.ResponseWriter, r *http.Request) {
 
 // Read
 func GetCountry(w http.ResponseWriter, r *http.Request) {
-	// // 解析 multipart/form-data 請求
-	// err := r.ParseMultipartForm(10 << 20) // 设置最大上传文件大小为 10MB
-	// if err != nil {
-	// 	http.Error(w, "Unable to parse form", http.StatusBadRequest)
-	// 	return
-	// }
 
 	// excuation
 	query := "SELECT * FROM country"
@@ -124,30 +118,3 @@ func GetCountry(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println(" GetCountry successfully")
 }
-
-// // Update (允許更改國家狀態)
-// func UpdateCountry(w http.ResponseWriter, r *http.Request) {
-// 	//parse the josn request
-// 	var c Country
-// 	err := json.NewDecoder(r.Body).Decode(&c)
-// 	if err != nil {
-// 		http.Error(w, "json decode error", http.StatusInternalServerError)
-// 		log.Printf("updateCountry -001 %v\n", err)
-// 		return
-// 	}
-
-// 	//Extract routing parameters
-// 	vars := mux.Vars(r)
-// 	eid := vars["eid"]
-
-// 	query := "UPDATE country SET name=?, continent=?, headman=?, foreign_minister=?, contact_person=?, population=?, area=?, phone=?, is_ally=?, is_exit =? WHERE code=?"
-// 	_, err = database.GetDB().Exec(query, &c.Name, &c.Continent, &c.Headman, &c.ForeignMinister, &c.ContactPerson, &c.Population, &c.Area, &c.Phone, &c.IsAlly, &c.IsExit, eid)
-// 	if err != nil {
-// 		http.Error(w, "update db Country error", http.StatusInternalServerError)
-// 		return
-// 	}
-
-// 	//response
-// 	w.WriteHeader(http.StatusOK)
-// 	w.Write([]byte("updatedCountry successfully"))
-// }

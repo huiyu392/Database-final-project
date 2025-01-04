@@ -175,11 +175,7 @@ const CountryPage = () => {
     const totalCountries = filtered.length;
     const totalAllies = filtered.filter(country => country.is_ally === true).length;
     const totalNonAllies = filtered.filter(country => country.is_ally === false).length;
-    // const totalPopulationAllies = filtered.filter(country => country.is_ally === true)
-    //                                      .reduce((acc, country) => acc + country.population, 0);
-    // const totalPopulationNonAllies = filtered.filter(country => country.is_ally === false)
-    //                                          .reduce((acc, country) => acc + country.population, 0);
-  
+    
     // 设置统计结果
     setCountryStatistics({
       totalCountries,

@@ -20,9 +20,9 @@
 -- Current Database: `DBproject`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `DBproject` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `003` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 
-USE `DBproject`;
+USE `003`;
 
 --
 -- Table structure for table `assignment`

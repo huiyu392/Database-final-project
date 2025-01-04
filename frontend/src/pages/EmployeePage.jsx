@@ -92,9 +92,6 @@ function EmployeePage() {
     else if (name === "birth" || name === "hire_date") {  //轉換為日期格式
         valueToUse = new Date(value).toISOString().split('T')[0]; ; //轉換為整數
     }
-    // else if (name === "photo") {//***********
-    //     valueToUse = null; 
-    // }
 
     //處裡上傳檔案
     if (type === "file" ) {
@@ -126,10 +123,7 @@ function EmployeePage() {
     // 表單提交
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // if (!isFormValid()) {
-        //     alert('請檢查表單是否正確填寫');
-        // return;
-        // }
+
 
         // check photo 字段的正確性
         if (!newEmployee.photo) {
@@ -167,11 +161,6 @@ function EmployeePage() {
         }
     };
   
-      // const isFormValid = () => {
-      //     const requiredFields = ['e_id', 'name', 'grade', 'salary', 'phone', 'gender', 'birth', 'hire_date', 'address'];
-      //     return requiredFields.every((field) => newEmployee[field]?.toString().trim() !== '');
-      // };
-
 
   //* edit handle ************************************************
   const handleEdit = (employee) => {
@@ -418,16 +407,6 @@ function EmployeePage() {
                       
                   />
               </label>
-              {/* <label className="file">
-                頭像：
-                <input className="file"
-                  type="file"
-                  name="photo"
-                  accept="image/*"
-                  onChange={handleInputChange}
-                />
-              </label>
-              */}
 
               <button className="cancel" onClick={() => setShowModal(false)}>取消</button>
                 <button className="confirm" onClick={handleSubmit}>確認</button>

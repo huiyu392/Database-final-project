@@ -176,21 +176,6 @@ func DeleteDependent(w http.ResponseWriter, r *http.Request) {
 	eid := vars["eid"]
 	did := vars["did"]
 
-	// // First, check if the employee exists and is not already deleted
-	// q := "SELECT is_deleted FROM employee WHERE e_id = ?"
-	// var isDeleted bool
-	// err := database.GetDB().QueryRow(q, id).Scan(&isDeleted)
-	// if err != nil {
-	// 	if err == sql.ErrNoRows {
-	// 		http.Error(w, "Employee not found", http.StatusNotFound)
-	// 		log.Printf("delete-001: Employee with id %v not found\n", id)
-	// 	} else {
-	// 		http.Error(w, "Database query error", http.StatusInternalServerError)
-	// 		log.Printf("delete-002: %v\n", err)
-	// 	}
-	// 	return
-	// }
-
 	// (Primary key) PK exists-> error
 	var exists bool
 	err := database.GetDB().QueryRow("SELECT EXISTS(SELECT 1 FROM dependent WHERE e_id = ? AND d_id = ? )", eid, did).Scan(&exists)

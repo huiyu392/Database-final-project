@@ -113,42 +113,11 @@ const DependentPage = () => {
     }
     };
   
-  // // 員工姓名選擇 自動補全
-  // const handleEmployeeSelect = (e) => {
-  //   const selectedName = e.target.value;
-  //   const selectedEmployee = employees.find(emp => emp.name === selectedName);
-  //   if (selectedEmployee) {
-  //     setNewDependent({
-  //       ...newDependent,
-  //       e_id: selectedEmployee.e_id, // 自動填充
-  //       employee_name: selectedName, // 更新姓名字段
-  //     });
-  //   }
-  // };
-  // const handleEIDSelect = (e) => {
-  //   const selectedEId = e.target.value;
-  //   const selectedEmployee = employees.find(emp => emp.e_id === selectedEId);
-  //   if (selectedEmployee) {
-  //     setNewDependent({
-  //       ...newDependent,
-  //       e_id: selectedEId, 
-  //       employee_name: selectedEmployee.name, 
-  //     });
-  //   }
-  // };
 
   // 表單提交 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
-    // //check not null 
-    // if (!newDependent.e_id || !newDependent.d_id|| !newDependent.relationship) {
-    //   alert('員工/眷屬身分證字號、關係欄位錯誤！'); //***** */
-    //   return; // 停止提交
-    // }
-
-    // 
     try {
       const response = await axios.post('http://localhost:3305/dependent',newDependent); //post 
       console.log('newDependent added:', response.data);

@@ -25,11 +25,6 @@ type Employee struct {
 	IsDeleted bool   `json:"is_deleted"`
 }
 
-/*
-func EmployeeHandler(w http.ResponseWriter, r *http.Request){
-	switch r.Method
-}*/
-
 // Create
 func CreateEmployee(w http.ResponseWriter, r *http.Request) {
 	var emp Employee

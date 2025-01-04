@@ -134,17 +134,6 @@ const AssignPage = () => {
           cname: selectedCountry.name, 
         });
       }
-    // }
-    //else if(name === "aname" ){
-    //   const selectedName = e.target.value;
-    //   const selectedAssignment = assignments.find(a => a.aname === selectedName);
-    //   if (selectedAssignment ) {
-    //     setNewAssignment({
-    //       ...newAssignment,
-    //       ambassador: selectedAssignment.ambassador, // 自動填充
-    //       aname: selectedName, // 更新姓名字段
-    //     });
-    //   }
     } else{
       setNewAssignment({ 
         ...newAssignment, 
@@ -303,25 +292,7 @@ const AssignPage = () => {
                 value={newAssignment.ambassador}
                 onChange={handleInputChange}
                 />
-            {/* <select
-                name="aname"
-                value={newAssignment.ambassador}
-                onChange={handleInputChange}
-              >
-              <option value="">請選擇大使</option>
-              {assignments.map(assign=> (
-                <option key={assign.ambassador} value={assign.aname}>
-                  {assign.aname}
-                </option>
-              ))}
-            </select> */}
-              {/* <p>
-                {assignments.map(c => (
-                <option key={c.name} value={c.code}>
-                  {c.code}
-                </option>
-              ))}
-              </p> */}
+           
           </label>
          
 

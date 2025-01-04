@@ -66,62 +66,6 @@ const HomePage = () => {
     }
   };
 
-  // const calculateStats = () => {
-
-  //   // 根据选定洲和国家筛选员工数据
-  //   const filteredEmployeesByContinent = employees.filter((employee) => {
-  //     return (
-  //       (selectedContinent === "all" || 
-  //         assignments.some((assignment) => assignment.e_id === employee.e_id && assignment.code === selectedContinent)) 
-  //     );
-  //   });
-
-  //   const filteredEmployeesByCountry = filteredEmployeesByContinent.filter((employee) => {
-  //     return selectedCountry === "all" || 
-  //       assignments.some((assignment) => assignment.e_id === employee.e_id && assignment.code === selectedCountry);
-  //   });
-
-  //   // 1. 该州总员工数
-  //   const totalEmployeesInContinent = filteredEmployeesByContinent.length;
-
-  //   // 2. 该州该国总员工数
-  //   const totalEmployeesInCountry = filteredEmployeesByCountry.length;
-
-  //   // 3. 符合年齡條件的員工数
-  //   const ageFilteredEmployees = filteredEmployeesByCountry.filter((employee) => {
-  //     const employeeAge = new Date().getFullYear() - new Date(employee.birth).getFullYear();
-  //     if (ageInput === "") {return ageInput === ""}  
-  //     // ||  parseInt(employeeAge) >= parseInt(ageInput);
-  //   });
-    
-  //   // 4. 眷屬信息处理
-  //   const dependentAges = dependents.filter((dependent) => 
-  //     ageFilteredEmployees.some((employee) => employee.e_id === dependent.e_id)
-  //   );
-
-  //   // 计算眷属的平均年齡与平均眷属人数
-  //   const totalDependentAge = dependentAges.reduce((sum, dependent) => {
-  //     const dependentAge = new Date().getFullYear() - new Date(dependent.birth).getFullYear();
-  //     return sum + dependentAge;
-  //   }, 0);
-
-  //   const averageFamilyAge = dependentAges.length > 0 ? totalDependentAge / dependentAges.length : 0;
-    
-  //   const totalFamilySize = dependents.filter((dependent) => 
-  //     ageFilteredEmployees.some((employee) => employee.e_id === dependent.e_id)
-  //   ).length;
-
-  //   const averageFamilySize = ageFilteredEmployees.length > 0 ? totalFamilySize / ageFilteredEmployees.length : 0;
-
-  //   // 更新统计数据
-  //   setStatistics({
-  //     totalEmployeesInContinent,
-  //     totalEmployeesInCountry,
-  //     ageFilteredEmployeeCount: ageFilteredEmployees.length,
-  //     averageFamilyAge,
-  //     averageFamilySize,
-  //   });
-  // };
  // 计算统计数据
  const calculateStats = () => {
 
@@ -174,7 +118,6 @@ const calculateAge = (birthDate) => {
             value={selectedContinent}
             onChange={(e) => {
               setSelectedContinent(e.target.value);
-              //setSelectedCountry("all"); // 當選擇洲時重置國家選擇
             }}
           >
             <option value="all">全選</option>
@@ -221,8 +164,6 @@ const calculateAge = (birthDate) => {
 
       <div className="result">
         <h2>統計結果</h2>
-        {/* <p>該洲總員工數：{statistics.totalEmployeesInContinent}</p>
-        <p>該洲該國總員工數：{statistics.totalEmployeesInCountry}</p> */}
         <p>符合年齡條件的員工數：{statistics.ageFilteredEmployeeCount}</p>
         <p>平均眷屬年齡：{statistics.averageFamilyAge}</p>
         <p>平均眷屬人數：{statistics.averageFamilySize}</p>
