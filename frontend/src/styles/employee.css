@@ -95,38 +95,32 @@
 
 /*統計****************************************/
 
-/* 标签和输入框对齐 */
-/* .employee-container .filters label {
-  /* background-color: #218838; */
-  /* display: block;
-  margin-left: 20px; */
-  /* margin-top: 5px;
-  font-size: 1rem;
-  color: #555;
-  width:200px;
+
+.employee-container .stats-modal-content p{
   display: flex;
   align-items: left;
   white-space: nowrap;
-}  */ 
-/* 
-.employee-container .filters select, .filters input {
-  padding: 2px;
-  border-radius: 5px;
-  border: 1px solid #1d252e;
-  transition: border-color 0.3s ease;
+  margin-top: 5px;
+}
+.employee-container .stats-modal-content .section2 .filter{
+  background-color: rgb(221, 221, 221);
+  border-radius:10px ;
+  padding: 10px 0px 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  gap: 20px;
   
 }
 
-.employee-container .filters button {
-  padding: 10px;
-  background-color:#348fc7;
+.employee-container .stats-modal-content .section2 .filter button{
+  background-color: rgb(76, 132, 152);
   color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  padding: 8px 10px;
+  height: 100%;
 }
 
-.employee-container .filters button:hover {
-  background-color: #22202f;
+.employee-container .stats-modal-content .section2 .result{
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
- */

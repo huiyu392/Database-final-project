@@ -23,15 +23,21 @@ const CountryPage = () => {
     is_exit: true,
   });
   //for 統計
-  const [showStatsModal, setShowStatsModal] = useState(false); // 顯示統計彈窗
-  const [selectedContinent, setSelectedContinent] = useState(''); // 選擇的洲
-  const [selectedAllyStatus, setSelectedAllyStatus] = useState('all'); // 選擇邦交狀態 ('all', 'ally', 'non-ally')
-  const [statistics, setStatistics] = useState({
+  const [showStatsModal, setShowStatsModal] = useState(false);
+  const [selectedContinent, setSelectedContinent] = useState(''); // 選擇洲別
+  const [selectedAllyStatus, setSelectedAllyStatus] = useState('all'); // 邦交國/非邦交國
+  const [selectedCountries, setSelectedCountries] = useState([]); // 用于存储选择的国家
+  const [availableCountries, setAvailableCountries] = useState([]);
+
+  const [countryStatistics, setCountryStatistics] = useState({
     totalCountries: 0,
+    totalPopulation: 0,
     totalAllies: 0,
-    totalNonAllies: 0,
-    totalPopulationAllies: 0,
-    totalPopulationNonAllies: 0,
+    totalNonAllies: 0
+  });
+  const [popuStatistics, setPopuStatistics] = useState({
+    totalCountries: 0,
+    totalPopulation: 0
   });
 
   //加載時動作
@@ -132,7 +138,7 @@ const CountryPage = () => {
       fetchCountries(); // refrash data
     } catch (error) {
       console.error('Error adding country:', error);
-      alert('伺服器錯誤！');
+      alert('伺服器錯誤，請檢查輸入資料格式是否正確！');
     }
   };
   
@@ -150,43 +156,80 @@ const CountryPage = () => {
   //   setNonAllyCount(nonAlly.length);
   // };
   //* 統計計算處理*************************************************
-  const handleStatistics = () => {
-    console.log('Calculating statistics...'); // 这里查看是否进入了此函数
-    let filtered = [...countries];
-
-    // 根據選擇的洲篩選
-    if (selectedContinent !== '') {
+  const handleCountriesStatistics = () => {
+    let filtered = countries;
+  
+    // 根据所选洲进行过滤
+    if (selectedContinent) {
       filtered = filtered.filter(country => country.continent === selectedContinent);
     }
-
-    // 根據邦交國篩選
+  
+    // 根据邦交国状态进行过滤
     if (selectedAllyStatus === 'ally') {
       filtered = filtered.filter(country => country.is_ally === true);
     } else if (selectedAllyStatus === 'non-ally') {
       filtered = filtered.filter(country => country.is_ally === false);
     }
-
-    // 計算統計
+  
+    // 统计
     const totalCountries = filtered.length;
     const totalAllies = filtered.filter(country => country.is_ally === true).length;
     const totalNonAllies = filtered.filter(country => country.is_ally === false).length;
-
-    const totalPopulationAllies = filtered
-      .filter(country => country.is_ally === true)
-      .reduce((acc, country) => acc + (country.population || 0), 0);
-
-    const totalPopulationNonAllies = filtered
-      .filter(country => country.is_ally === false)
-      .reduce((acc, country) => acc + (country.population || 0), 0);
-
-    setStatistics({
+    // const totalPopulationAllies = filtered.filter(country => country.is_ally === true)
+    //                                      .reduce((acc, country) => acc + country.population, 0);
+    // const totalPopulationNonAllies = filtered.filter(country => country.is_ally === false)
+    //                                          .reduce((acc, country) => acc + country.population, 0);
+  
+    // 设置统计结果
+    setCountryStatistics({
       totalCountries,
       totalAllies,
       totalNonAllies,
-      totalPopulationAllies,
-      totalPopulationNonAllies,
     });
   };
+  //更新符合条件的国家列表 for<select>
+  const handleAllyStatusChange = (status) => {
+    setSelectedAllyStatus(status);
+  
+    // 根据选择过滤国家列表
+    if (status === 'ally') {
+      setAvailableCountries(countries.filter(country => country.is_ally === true));
+    } else if (status === 'non-ally') {
+      setAvailableCountries(countries.filter(country => country.is_ally === false));
+    } else {
+      setAvailableCountries(countries); // 如果没有选择任何选项，显示所有国家
+    }
+  };
+
+  const handlePopuStatistics = () => {
+    let filtered = countries;
+    
+    // 根据邦交国状态进行过滤
+    if (selectedAllyStatus === 'ally') {
+      filtered = filtered.filter(country => country.is_ally === true);
+    } else if (selectedAllyStatus === 'non-ally') {
+      filtered = filtered.filter(country => country.is_ally === false);
+    }
+      
+    // 根据所選國家 进行过滤
+    if (selectedCountries.length > 0 && !selectedCountries.includes("all")) {
+      filtered = filtered.filter(country => selectedCountries.includes(country.code));
+    }
+  
+  
+    // 统计
+    const totalCountries = filtered.length;
+     // 计算符合条件的总人口数
+    const totalPopulation = filtered.reduce((acc, country) => acc + country.population, 0);
+  
+    // 设置统计结果
+    setPopuStatistics({
+      totalCountries,
+      totalPopulation
+    });
+  };
+  
+
   //* 顯示格式處理*************************************************
   // 電話格式化
   const formatPhoneNumber = (phone) => {
@@ -355,45 +398,66 @@ const CountryPage = () => {
 
     {/* 統計 */}
     <div className="stats-container">
-     <button onClick={() => setShowStatsModal(true)}>統計</button>
+      <button onClick={() => {setShowStatsModal(true);handleCountriesStatistics();handlePopuStatistics();}}>統計</button>
       {showStatsModal && (
         <div className="modal-overlay">
-          <div className="modal-content">
-            <span className="close" onClick={() =>setShowStatsModal(false)}>&times;</span>
-            <h3>統計</h3>
-            
-            <div className="filter">
+        <div className="stats-modal-content">
+          <span className="close" onClick={() =>setShowStatsModal(false)}>&times;</span>
+          <h3>統計</h3>
+          <div className="section1">
+            <div className='filter'>
             <label>選擇洲：
               <select onChange={(e) => setSelectedContinent(e.target.value)} value={selectedContinent}>
                 <option value="">所有洲</option>
-                <option value="Asia亞洲">亞洲</option>
-                <option value="Europe歐洲">歐洲</option>
-                <option value="Africa非洲">非洲</option>
-                <option value="North America北美洲">北美洲</option>
-                <option value="South America南美洲">南美洲</option>
-                <option value="Oceania大洋洲">大洋洲</option>
+                <option value="亞洲">亞洲</option>
+                <option value="歐洲">歐洲</option>
+                <option value="非洲">非洲</option>
+                <option value="北美洲">北美洲</option>
+                <option value="南美洲">南美洲</option>
+                <option value="大洋洲">大洋洲</option>
               </select>
             </label>
+            <button onClick={handleCountriesStatistics}>統計</button>
+            </div>
 
-            <label>邦交國：
-              <select onChange={(e) => setSelectedAllyStatus(e.target.value)} value={selectedAllyStatus}>
-                <option value="all">所有邦交國</option>
+            <div className="result">
+              <p>總國家數：{countryStatistics.totalCountries}</p>
+              <p>邦交國數：{countryStatistics.totalAllies}</p>
+              <p>非邦交國數：{countryStatistics.totalNonAllies}</p>
+            </div>
+          </div>
+          <hr/>
+          <div className="section2">
+          
+          <div className='filter'>
+            <label>選擇邦交國/非邦交國：
+              <select onChange={(e) => handleAllyStatusChange(e.target.value)} value={selectedAllyStatus}>
+                <option value="all">全選</option>
                 <option value="ally">邦交國</option>
                 <option value="non-ally">非邦交國</option>
               </select>
             </label>
-            </div>
-            <button onClick={handleStatistics}>計算</button>
-            
-            <div className="result">
-            <hr />
-            <p>總國家數： {statistics.totalCountries}</p>
-            <p>邦交國數： {statistics.totalAllies}</p>
-            <p>非邦交國數：{statistics.totalNonAllies}</p>
-            <p>邦交國總人口數： {statistics.totalPopulationAllies}</p>
-            <p>非邦交國總人口數： {statistics.totalPopulationNonAllies}</p>
-            </div>
+            <label>選擇國家：
+            <select  onChange={(e) => setSelectedCountries([...e.target.selectedOptions].map(option => option.value))}>
+              <option key="all" value="all">全選</option>
+              {availableCountries.map((country) => (
+                <option key={country.code} value={country.code}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+            </label>
+
+          <button onClick={handlePopuStatistics}>統 計</button>  
           </div>
+          
+          <div className="result">
+            <p>符合條件的總人口數： {formatNumber(popuStatistics.totalPopulation)}</p>
+          </div>
+
+
+          </div>    
+        </div>
         </div>
       )}
     </div>

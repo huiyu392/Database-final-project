@@ -3,12 +3,23 @@ import axios from 'axios';
 
 import '../styles/home.css';
 
-const HomePage = () => { 
-  // for stored table content
+const HomePage = () => {
   const [assignments, setAssignments] = useState([]); 
   const [employees, setEmployees] = useState([]); 
   const [countries, setCountries] = useState([]); 
   const [dependents, setDependents] = useState([]);  
+
+  const [selectedContinent, setSelectedContinent] = useState("all");
+  const [selectedCountry, setSelectedCountry] = useState("all");
+  const [ageInput, setAgeInput] = useState("");  // 年齡輸入框
+
+  const [statistics, setStatistics] = useState({
+    totalEmployeesInContinent: 0,
+    totalEmployeesInCountry: 0,
+    ageFilteredEmployeeCount: 0,
+    averageFamilyAge: 0,
+    averageFamilySize: 0,
+  });
 
   //加载时的动作
   useEffect(() => {
@@ -54,124 +65,144 @@ const HomePage = () => {
       console.error('Error fetching Dependents:', err);
     }
   };
-  //*************************************************** */
-  const [selectedCountry, setSelectedCountry] = useState([]);
-  const [selectedContinent, setSelectedContinent] = useState('');
-  const [ageInput, setAgeInput] = useState('');
-  const [statistics, setStatistics] = useState({
-    totalEmployees: 0,
-    totalEmployeesInContinent: 0,
-    averageFamilyAge: 0,
-    averageFamilySize: 0,
+
+  // const calculateStats = () => {
+
+  //   // 根据选定洲和国家筛选员工数据
+  //   const filteredEmployeesByContinent = employees.filter((employee) => {
+  //     return (
+  //       (selectedContinent === "all" || 
+  //         assignments.some((assignment) => assignment.e_id === employee.e_id && assignment.code === selectedContinent)) 
+  //     );
+  //   });
+
+  //   const filteredEmployeesByCountry = filteredEmployeesByContinent.filter((employee) => {
+  //     return selectedCountry === "all" || 
+  //       assignments.some((assignment) => assignment.e_id === employee.e_id && assignment.code === selectedCountry);
+  //   });
+
+  //   // 1. 该州总员工数
+  //   const totalEmployeesInContinent = filteredEmployeesByContinent.length;
+
+  //   // 2. 该州该国总员工数
+  //   const totalEmployeesInCountry = filteredEmployeesByCountry.length;
+
+  //   // 3. 符合年齡條件的員工数
+  //   const ageFilteredEmployees = filteredEmployeesByCountry.filter((employee) => {
+  //     const employeeAge = new Date().getFullYear() - new Date(employee.birth).getFullYear();
+  //     if (ageInput === "") {return ageInput === ""}  
+  //     // ||  parseInt(employeeAge) >= parseInt(ageInput);
+  //   });
+    
+  //   // 4. 眷屬信息处理
+  //   const dependentAges = dependents.filter((dependent) => 
+  //     ageFilteredEmployees.some((employee) => employee.e_id === dependent.e_id)
+  //   );
+
+  //   // 计算眷属的平均年齡与平均眷属人数
+  //   const totalDependentAge = dependentAges.reduce((sum, dependent) => {
+  //     const dependentAge = new Date().getFullYear() - new Date(dependent.birth).getFullYear();
+  //     return sum + dependentAge;
+  //   }, 0);
+
+  //   const averageFamilyAge = dependentAges.length > 0 ? totalDependentAge / dependentAges.length : 0;
+    
+  //   const totalFamilySize = dependents.filter((dependent) => 
+  //     ageFilteredEmployees.some((employee) => employee.e_id === dependent.e_id)
+  //   ).length;
+
+  //   const averageFamilySize = ageFilteredEmployees.length > 0 ? totalFamilySize / ageFilteredEmployees.length : 0;
+
+  //   // 更新统计数据
+  //   setStatistics({
+  //     totalEmployeesInContinent,
+  //     totalEmployeesInCountry,
+  //     ageFilteredEmployeeCount: ageFilteredEmployees.length,
+  //     averageFamilyAge,
+  //     averageFamilySize,
+  //   });
+  // };
+ // 计算统计数据
+ const calculateStats = () => {
+
+  let filteredEmployees = employees.filter((employee) => {
+    // 过滤员工：洲、国家、年齡
+    const isContinentMatch = selectedContinent === "all" || employee.continent === selectedContinent;
+    const isCountryMatch = selectedCountry === "all" || employee.country === selectedCountry;
+    const isAgeMatch = (ageInput ? parseInt(calculateAge(employee.birth)) >= parseInt(ageInput) : true);
+    return isContinentMatch && isCountryMatch && isAgeMatch;
   });
 
+  const totalEmployees = filteredEmployees.length;
 
-  // 计算某国符合年龄条件的员工总数
-  const calculateCountryAgeStats = () => {
-    if (selectedCountry.length === 0) {
-      alert('請選擇一個國家！');
-      return;
-    }
+  // 获取所有符合条件员工的眷属
+  const filteredDependents = dependents.filter((dependent) => 
+    filteredEmployees.some(employee => employee.e_id === dependent.e_id)
+  );
 
-    // 过滤符合年齡條件的員工
-    const filteredEmployees = assignments.filter(
-      a => selectedCountry.includes(a.cname) && a.is_assign
-    );
-    
-    const ageThreshold = parseInt(ageInput, 10);  // 从输入框读取年龄门槛
-    if (isNaN(ageThreshold)) {
-      alert('請輸入有效的年齡！');
-      return;
-    }
+  // 计算眷属的平均年龄和平均家庭人数
+  const totalFamilyAge = filteredDependents.reduce((acc, dep) => {
+    const age = calculateAge(dep.birth);
+    return acc + age;
+  }, 0);
 
-    const eligibleEmployees = filteredEmployees.filter(emp => {
-      const birthDate = new Date(emp.birthday);
-      const age = new Date().getFullYear() - birthDate.getFullYear();
-      return age >= ageThreshold;
-    });
+  const averageFamilyAge = totalFamilyAge / filteredDependents.length || 0;
+  const averageFamilySize = filteredDependents.length / totalEmployees || 0;
 
-    setStatistics({
-      totalEmployees: eligibleEmployees.length,
-    });
-  };
+  setStatistics({
+    totalEmployeesInContinent: totalEmployees,
+    totalEmployeesInCountry: filteredEmployees.length,
+    ageFilteredEmployeeCount: totalEmployees,
+    averageFamilyAge: averageFamilyAge.toFixed(2),
+    averageFamilySize: averageFamilySize.toFixed(2),
+  });
+};
 
-  // 计算某洲派遣的总员工数
-  const calculateContinentStats = () => {
-    if (!selectedContinent) {
-      alert('請選擇一個洲！');
-      return;
-    }
-
-    const continentCountries = countries.filter(c => c.continent === selectedContinent);
-    const continentEmployees = assignments.filter(
-      a => continentCountries.some(c => c.name === a.cname) && a.is_assign
-    );
-
-    setStatistics({
-      totalEmployeesInContinent: continentEmployees.length,
-    });
-  };
-
-  // 计算符合年龄条件的员工眷属的平均年龄和平均眷属人数
-  const calculateFamilyStats = () => {
-    const ageThreshold = parseInt(ageInput, 10);  // 从输入框读取年龄门槛
-    if (isNaN(ageThreshold)) {
-      alert('請輸入有效的年齡！');
-      return;
-    }
-
-    // 过滤符合年龄条件的员工
-    const eligibleEmployees = assignments.filter(emp => {
-      const birthDate = new Date(emp.birthday);
-      const age = new Date().getFullYear() - birthDate.getFullYear();
-      return age >= ageThreshold;
-    });
-
-    const families = eligibleEmployees.flatMap(emp => emp.family); // 假设每个员工有一个`family`字段，存储其眷属信息
-
-    if (families.length === 0) {
-      alert('沒有符合條件的員工或其眷屬！');
-      return;
-    }
-
-    const averageAge = families.reduce((sum, fam) => sum + fam.age, 0) / families.length;
-    const averageFamilySize = families.length / eligibleEmployees.length;
-
-    setStatistics({
-      averageFamilyAge: averageAge.toFixed(2),
-      averageFamilySize: averageFamilySize.toFixed(2),
-    });
-  };
-  
-  //*************************************************** */
-
-  // 处理国别的选择逻辑
-  const handleCountrySelect = (e) => {
-    const selected = e.target.value;
-    if (selected === "all") {
-      setSelectedCountry(countries.map(c => c.name));  // 选择"全选"
-    } else {
-      setSelectedCountry([selected]);  // 单一选择
-    }
-  };
-
+// 计算年龄
+const calculateAge = (birthDate) => {
+  const birthYear = new Date(birthDate).getFullYear();
+  const currentYear = new Date().getFullYear();
+  return currentYear - birthYear;
+};
   return (
     <div className="home-container">
-      <h1>綜合</h1>
-      <div className="section1">
+      <h1>綜合資料統計</h1>
+      <div className="filter">
+        <label>
+          洲名稱：
+          <select
+            value={selectedContinent}
+            onChange={(e) => {
+              setSelectedContinent(e.target.value);
+              //setSelectedCountry("all"); // 當選擇洲時重置國家選擇
+            }}
+          >
+            <option value="all">全選</option>
+            {["亞洲", "歐洲", "非洲", "北美洲", "南美洲", "大洋洲"].map((continent) => (
+              <option key={continent} value={continent}>
+                {continent}
+              </option>
+            ))}
+          </select>
+        </label>
+
         <label>
           國家名稱：
           <select
             value={selectedCountry}
-            onChange={handleCountrySelect}
+            onChange={(e) => setSelectedCountry(e.target.value)}
           >
             <option value="all">全選</option>
-            <option value="">請選擇國家</option>
-            {countries.map((c) => (
-              <option key={c.code} value={c.name}>
-                {c.name}
-              </option>
-            ))}
+            {countries
+              .filter(
+                (country) =>
+                  selectedContinent === "all" || country.continent === selectedContinent
+              )
+              .map((country) => (
+                <option key={country.code} value={country.name}>
+                  {country.name}
+                </option>
+              ))}
           </select>
         </label>
 
@@ -185,48 +216,16 @@ const HomePage = () => {
           />
         </label>
 
-        <button onClick={calculateCountryAgeStats}>計算</button>
-      </div>
-        
-      <div className="section2">
-        <label>
-          洲名稱：
-          <select
-            value={selectedContinent}
-            onChange={(e) => setSelectedContinent(e.target.value)}
-          >
-            <option value="">請選擇洲</option>
-            {["Asia", "Europe", "Africa", "North America", "South America", "Oceania"].map((continent) => (
-              <option key={continent} value={continent}>
-                {continent}
-              </option>
-            ))}
-          </select>
-        </label>
-          
-        <button onClick={calculateContinentStats}>計算</button>
+        <button onClick={calculateStats}>統計</button>
       </div>
 
-      {/* 統計結果 */}
-      <div className='result-section'>
-        {statistics.totalEmployees !== undefined && (
-          <div className="stats-result">
-            <p>符合條件的總員工數：{statistics.totalEmployees}</p>
-          </div>
-        )}
-
-        {statistics.totalEmployeesInContinent !== undefined && (
-          <div className="stats-result">
-            <p>該洲派遣的總員工數：{statistics.totalEmployeesInContinent}</p>
-          </div>
-        )}
-
-        {statistics.averageFamilyAge !== undefined && (
-          <div className="stats-result">
-            <p>眷屬的平均年齡：{statistics.averageFamilyAge}</p>
-            <p>平均眷屬人數：{statistics.averageFamilySize}</p>
-          </div>
-        )}
+      <div className="result">
+        <h2>統計結果</h2>
+        {/* <p>該洲總員工數：{statistics.totalEmployeesInContinent}</p>
+        <p>該洲該國總員工數：{statistics.totalEmployeesInCountry}</p> */}
+        <p>符合年齡條件的員工數：{statistics.ageFilteredEmployeeCount}</p>
+        <p>平均眷屬年齡：{statistics.averageFamilyAge}</p>
+        <p>平均眷屬人數：{statistics.averageFamilySize}</p>
       </div>
     </div>
   );

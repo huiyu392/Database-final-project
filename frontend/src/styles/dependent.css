@@ -57,3 +57,34 @@
 .deleted button {
   display: none; /* 隐藏编辑和删除按钮*/
 }
+
+/*********************************************/
+
+.dependent-container .stats-modal-content p{
+  display: flex;
+  align-items: left;
+  white-space: nowrap;
+  margin-top: 5px;
+}
+.dependent-container .stats-modal-content .filter{
+  background-color: rgb(221, 221, 221);
+  border-radius:10px ;
+  padding: 10px 0px 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  gap: 20px;
+  
+}
+
+.dependent-container .stats-modal-content .filter button{
+  background-color: rgb(76, 132, 152);
+  color: white;
+  padding: 8px 10px;
+  height: 100%;
+}
+
+.dependent-container .stats-modal-content .result{
+  margin-top: 10px;
+  margin-bottom: 20px;
+}

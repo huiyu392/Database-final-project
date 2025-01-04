@@ -350,7 +350,7 @@ const DependentPage = () => {
         <button onClick={() => setShowStatsModal(true)}>統計</button>
         {showStatsModal && (
           <div className="modal-overlay">
-            <div className="modal-content">
+            <div className="stats-modal-content">
             <span className="close" onClick={() =>setShowStatsModal(false)}>&times;</span>
               <h3>統計</h3>
               <div className='filter'>
@@ -367,8 +367,8 @@ const DependentPage = () => {
                 </label>
                 <button className="calculate" onClick={handleCalculateStats}>計算</button>
               </div>
+
               <div className='result'>
-              <hr />
                 <div>
                   <p>眷屬數量: {stats.count}</p>
                   <p>平均年齡: {stats.averageAge} 歲</p>

@@ -161,18 +161,40 @@ color: #333;
 
 
 /*統計 視窗**************************/
-.stats-container .modal-content button{
-    padding: 0px 10px;
-    background-color: rgba(143, 196, 187, 0.707);
+  /* 表單內部間距 */
+.stats-modal-content {
+  background-color: #f4f6f9;
+  padding: 20px;
+  padding-inline: 50px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  z-index: 1000; /*確保模態框內容在背景之上  */
 }
-.stats-container .modal-content .close {
+
+  
+  /* 表單標題 */
+.stats-modal-content h3 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: bold;
+}
+
+.stats-modal-content button{
+  padding: 0px 10px;
+  background-color: rgba(143, 196, 187, 0.707);
+}
+.stats-modal-content .close {
     display: flex;
     justify-content: right;
     font-size: 24px;
     cursor: pointer;
     color: #333;
   }
-.stats-container .modal-content h4{
+  .stats-modal-content h4{
     display: flex;
     margin-top: 5px;
     justify-content: left;
@@ -196,16 +218,12 @@ color: #333;
 
 } */
 
-.stats-container .top button{
-  margin-left: 20px;
-}
+
 .filter {
-  /* background-color: #333; */
   display: flex;
   white-space:nowrap;
-  
-
 }
+
 .filter select, .filter input{
   padding: 2px;
   border-radius: 5px;
@@ -219,9 +237,9 @@ hr {
     border: 1px solid #ddd;
     margin: 20px 0;
   } 
+  
   /* 统计数据样式 */
 .result p {
-    /* font-size: 14px;*/
     display: flex;
     text-align: left;
     margin-bottom:5px;

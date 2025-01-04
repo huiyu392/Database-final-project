@@ -13,10 +13,10 @@ type Assignment struct {
 	AssignDate string `json:"assign_date"`
 	Code       string `json:"code"`
 	Ambassador string `json:"ambassador"`
-	IsAssign   bool   `json:"is_assign"`
+	IsAssign   int    `json:"is_assign"`
 	EName      string `json:"ename"`
 	CName      string `json:"cname"`
-	AName      string `json:"aname"`
+	// AName      string `json:"aname"`
 }
 
 // Create
@@ -47,14 +47,14 @@ func CreateAssignment(w http.ResponseWriter, r *http.Request) {
 		log.Printf("create_assign-003: %v\n", err)
 		return
 	}
-	// (referential integrity) Ambassador
-	var AmbassadorExists bool
-	err = database.GetDB().QueryRow("SELECT EXISTS(SELECT 1 FROM employee WHERE e_id = ?)", &assign.Ambassador).Scan(&AmbassadorExists)
-	if err != nil || !AmbassadorExists {
-		http.Error(w, "Employee with the given e_id does not exist", http.StatusBadRequest)
-		log.Printf("create_assign-004: %v\n", err)
-		return
-	}
+	// // (referential integrity) Ambassador
+	// var AmbassadorExists bool
+	// err = database.GetDB().QueryRow("SELECT EXISTS(SELECT 1 FROM employee WHERE e_id = ?)", &assign.Ambassador).Scan(&AmbassadorExists)
+	// if err != nil || !AmbassadorExists {
+	// 	http.Error(w, "Employee with the given e_id does not exist", http.StatusBadRequest)
+	// 	log.Printf("create_assign-004: %v\n", err)
+	// 	return
+	// }
 
 	// (Primary key) if PK exists exists -> error***
 	// var PKexists bool
@@ -67,7 +67,7 @@ func CreateAssignment(w http.ResponseWriter, r *http.Request) {
 
 	// excutation
 	query := `INSERT INTO assignment(e_id, assign_date, code, ambassador, is_assign)
-			VALUES (?, ?, ?, ?, ?, ?)`
+			VALUES (?, ?, ?, ?, ?)`
 
 	_, err = database.GetDB().Exec(query, &assign.EID, &assign.AssignDate, &assign.Code, &assign.Ambassador, &assign.IsAssign)
 	if err != nil {
@@ -86,11 +86,16 @@ func CreateAssignment(w http.ResponseWriter, r *http.Request) {
 func GetAssignment(w http.ResponseWriter, r *http.Request) {
 	// excuation
 	query := `
-			SELECT a.e_id, a.assign_date, a.code, a.ambassador, a.is_assign, e.name AS ename, c.name AS cname, amb.name AS aname 
+			SELECT a.e_id, a.assign_date, a.code, a.ambassador, a.is_assign, e.name AS ename, c.name AS cname 
 			FROM assignment a
 			JOIN employee e ON a.e_id = e.e_id
-			JOIN country c ON a.code = c.code
-			LEFT JOIN employee amb ON a.ambassador = amb.e_id  `
+			JOIN country c ON a.code = c.code `
+	// `
+	// SELECT a.e_id, a.assign_date, a.code, a.ambassador, a.is_assign, e.name AS ename, c.name AS cname, amb.name AS aname
+	// FROM assignment a
+	// JOIN employee e ON a.e_id = e.e_id
+	// JOIN country c ON a.code = c.code
+	// LEFT JOIN employee amb ON a.ambassador = amb.e_id  `
 
 	data, err := database.GetDB().Query(query)
 	if err != nil {
@@ -105,12 +110,20 @@ func GetAssignment(w http.ResponseWriter, r *http.Request) {
 
 		// scan data and map to assign_struct
 		var assign Assignment //object
-		err := data.Scan(&assign.EID, &assign.AssignDate, &assign.Code, &assign.Ambassador, &assign.IsAssign, &assign.EName, &assign.CName, &assign.AName)
+		err := data.Scan(&assign.EID, &assign.AssignDate, &assign.Code, &assign.Ambassador, &assign.IsAssign, &assign.EName, &assign.CName)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			log.Printf("Getassignment-002: %v\n", err)
 			return
 		}
+
+		// var assign Assignment //object
+		// err := data.Scan(&assign.EID, &assign.AssignDate, &assign.Code, &assign.Ambassador, &assign.IsAssign, &assign.EName, &assign.CName, &assign.AName)
+		// if err != nil {
+		// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+		// 	log.Printf("Getassignment-002: %v\n", err)
+		// 	return
+		// }
 
 		//add element to slice
 		assignments = append(assignments, assign)

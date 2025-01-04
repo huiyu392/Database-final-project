@@ -16,15 +16,15 @@ const AssignPage = () => {
     assign_date: new Date().toISOString().split('T')[0], 
     code: '',
     ambassador: '',
-    is_assign: true,
+    is_assign: 1,
     ename: '',
     cname: '',
     aname: ''
   });
-
+  //for staitstics
   const [showStatsModal, setShowStatsModal] = useState(false); // 控制统计弹窗
-const [selectedCountry, setSelectedCountry] = useState(''); // 当前选择的国家
-const [statistics, setStatistics] = useState({}); // 统计结果
+  const [selectedCountry, setSelectedCountry] = useState(''); // 当前选择的国家
+  const [statistics, setStatistics] = useState({}); // 统计结果
 
   //加載時動作
   useEffect(() => {
@@ -65,7 +65,7 @@ const [statistics, setStatistics] = useState({}); // 统计结果
 
   //* 查詢處理 ******************************
   const handleSearch = () => {
-  if (searchQuery) {
+  if (searchQuery) { //get the input value 
     const query = searchQuery.toLowerCase();
     const filtered = assignments.filter(assignment=> {
       return ( assignment.e_id.toLowerCase().includes(query)) || 
@@ -80,6 +80,7 @@ const [statistics, setStatistics] = useState({}); // 统计结果
       setFilteredAssignments(assignments);  // 若搜尋框為空，顯示所有資料
     }
   };
+
   //* 新增處理 ***************************************************
   //  提前前處裡
   const handleInputChange = (e) => {
@@ -133,16 +134,17 @@ const [statistics, setStatistics] = useState({}); // 统计结果
           cname: selectedCountry.name, 
         });
       }
-    }else if(name === "aname" ){
-      const selectedName = e.target.value;
-      const selectedAssignment = assignments.find(a => a.aname === selectedName);
-      if (selectedAssignment ) {
-        setNewAssignment({
-          ...newAssignment,
-          ambassador: selectedAssignment.ambassador, // 自動填充
-          aname: selectedName, // 更新姓名字段
-        });
-      }
+    // }
+    //else if(name === "aname" ){
+    //   const selectedName = e.target.value;
+    //   const selectedAssignment = assignments.find(a => a.aname === selectedName);
+    //   if (selectedAssignment ) {
+    //     setNewAssignment({
+    //       ...newAssignment,
+    //       ambassador: selectedAssignment.ambassador, // 自動填充
+    //       aname: selectedName, // 更新姓名字段
+    //     });
+    //   }
     } else{
       setNewAssignment({ 
         ...newAssignment, 
@@ -163,16 +165,15 @@ const [statistics, setStatistics] = useState({}); // 统计结果
             assign_date: new Date().toISOString().split('T')[0], 
             code: '',
             ambassador: '',
-            is_assign: true,
+            is_assign: 1,
             ename: '',
-            cname: '',
-            aname: ''
+            cname: ''
           });
           setShowModal(false); //close madal
           fetchAssignments(); // refrash data
       } catch (error) {
           console.error('Error adding :', error);
-          alert('請確認伺服器是否正常運行，並檢查輸入資料格式是否正確！');
+          alert('伺服器錯誤，請檢查輸入資料格式是否正確！');
       }
   };
   //*************************************************** */
@@ -295,9 +296,16 @@ const [statistics, setStatistics] = useState({}); // 统计结果
           </label>
           <label>
           國家大使：
-            <select
+              <input
+                type="text"
+                name="ambassador"
+                maxLength="14"
+                value={newAssignment.ambassador}
+                onChange={handleInputChange}
+                />
+            {/* <select
                 name="aname"
-                value={newAssignment.aname}
+                value={newAssignment.ambassador}
                 onChange={handleInputChange}
               >
               <option value="">請選擇大使</option>
@@ -306,7 +314,7 @@ const [statistics, setStatistics] = useState({}); // 统计结果
                   {assign.aname}
                 </option>
               ))}
-            </select>
+            </select> */}
               {/* <p>
                 {assignments.map(c => (
                 <option key={c.name} value={c.code}>
@@ -329,8 +337,8 @@ const [statistics, setStatistics] = useState({}); // 统计结果
     <button onClick={() => setShowStatsModal(true)}>統計</button>
     {showStatsModal && (
       <div className="modal-overlay">
-        <div className="modal-content">
-        <span className="close" onClick={() =>setShowStatsModal(false)}>&times;</span>   
+        <div className="stats-modal-content">
+        <span className="close" onClick={() =>setShowStatsModal(false)}>&times;</span>
           <h3>統計派駐數據</h3>
           
           <div className="filter">
@@ -348,7 +356,7 @@ const [statistics, setStatistics] = useState({}); // 统计结果
               ))}
             </select>
           </label>
-          <button onClick={calculateStatistics}>計算</button>
+          <button onClick={calculateStatistics}>統計</button>
           </div>
 
           <div className="result">
@@ -391,8 +399,18 @@ const [statistics, setStatistics] = useState({}); // 统计结果
             <td>{assignment.code}</td>
             <td>{assignment.cname}</td> 
             <td>{assignment.assign_date}</td>
-            <td>{assignment.aname}</td>
-            <td>{assignment.is_assign}</td>
+            
+            <td>{assignment.ambassador}</td>
+            {/* <td>{assignment.aname}</td> */}
+            <td>
+            {assignment.is_assign == 1
+              ? '派駐中'
+              : assignment.is_assign == 0
+              ? '離職'
+              : assignment.is_assign == 2
+              ? '調回原職'
+              : '未知狀態'}
+          </td>
           </tr>
         ))}
       </tbody>

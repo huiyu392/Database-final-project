@@ -14,34 +14,79 @@
     background-color: #f4f6f9;
 }
 /**********************************************/
-.home-container .section1{
-    background-color: rgba(171, 207, 227, 0.74);
-    
+
+/* .home-container .section1{
     padding: 10px 20px;
     border-radius: 10px;
-    
-    display: flex;
-    white-space: nowrap;
-    align-items: center;
+    display: block;
+    margin-bottom: 50px;
 
 }
-.home-container .section1 input,.home-container .section1 select{
+
+.home-container .section2{
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: block;
+    margin-bottom: 50px;
+
+} */
+
+.home-container .filter{
+    background-color: rgba(171, 207, 227, 0.74);
+    border-radius:10px ;
+    padding: 20px;
+    font-size: larger;
+    /* display: flex;
+    align-items: center;
+    justify-content:center;
+    gap: 10px;
+     */
+    display: block;
+    
+    justify-content:left;
+   
+    
+  }
+  
+  .home-container .filter label{
+    display: block;
+    margin-bottom: 10px;
+  }
+ 
+.home-container .filter input,.home-container .filter select{
     padding: 5px;
-    width:150px;
     border-radius: 5px;
     border: 1px solid #1d252e;
     transition: border-color 0.3s ease;
     margin-right: 20px;
+    
 
 }
-.home-container .section1 button{
+.home-container .filter button{
     /* background-color: #aaa; */
-    margin-left:50px;
-    align-items: right;
+    margin-left:30px;
+    display: flex;
+    width:80%;
+    margin-top: 50px;
+    justify-content:center;
 }
-
+.home-container .result h2{
+    margin-bottom: 10px;
+}
+.home-container .result{
+    /* background-color: rgb(221, 221, 221); */
+    background-color: rgba(255, 221, 134, 0.812);
+    border-radius:10px ;
+    margin-top: 10px;
+    padding: 10px 0px 10px 20px;
+    display: block;
+    justify-content:left;
+    
+    font-size:medium;
+    
+  }
 /*2*****************************/
-.home-container .section2{
+/* .home-container .section2{
     background-color: rgba(171, 207, 227, 0.74);
     
     padding: 10px 20px;
@@ -53,8 +98,8 @@
     white-space: nowrap;
     align-items: center;
 
-}
-.home-container .section2 select{
+} */
+/* .home-container .section2 select{
     padding: 5px;
     width:150px;
     border-radius: 5px;
@@ -62,14 +107,14 @@
     transition: border-color 0.3s ease;
     margin-right: 20px;
 
-}
-.home-container .section2 button{
+} */
+/* .home-container .section2 button{
     /* background-color: #aaa; */
-    margin-left:50px;
+    /* margin-left:50px;
    
-}
+} */ 
 
-/*3*****************************/
+/* 3****************************
 .home-container .result-section{
     margin-top: 20px;
     background-color: rgba(255, 235, 135, 0.74);
@@ -79,4 +124,5 @@
     
     width:400px;
     display: block;
-}
+} */
+

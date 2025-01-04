@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import '../styles/employee.css';
 import '../styles/all.css';
+import '../styles/employee.css';
 
 function EmployeePage() {
   const [employees, setEmployees] = useState([]); //人員總表
@@ -40,9 +40,6 @@ function EmployeePage() {
 
   const [showStatsModal, setShowStatsModal] = useState(false);  // 控制統計彈窗顯示
   const [selectedGrade, setSelectedGrade] = useState('');
-  const [selectedYear, setSelectedYear] = useState('');
-  const [selectedMonth, setSelectedMonth] = useState('');
-  const [selectedWeek, setSelectedWeek] = useState('');
 
   //加載時動作
   useEffect(() => {
@@ -56,10 +53,11 @@ function EmployeePage() {
       console.log("Fetched employees:", response.data);  // 查看获取到的员工数据
       setEmployees(response.data);
       setFilteredEmployees(response.data);  // 设置初始过滤员工数据
-      calculateStatistics(response.data);   // 立即进行计算
+      calculateStatistics();   // 立即进行计算
+      
     } catch (err) {
       console.error('Error fetching Employees', err);
-      alert('請確認伺服器是否正常運行，並檢查輸入資料格式是否正確！');
+      alert('請確認伺服器是否正常運行!');
     }
   };
 
@@ -183,12 +181,7 @@ function EmployeePage() {
   };
   
   const handleEditSubmit = async () => {
-    //check not null 
-    if (!newEmployee.e_id || !newEmployee.name) {
-      alert('員工身分證/名字不可為空！');
-      return; // 停止提交
-  }
-
+    
     try {
       const response = await axios.put( `http://localhost:3305/employee/${editEmployee.e_id}`,editEmployee);
       console.log('Employee updated:', response.data);
@@ -197,12 +190,13 @@ function EmployeePage() {
       fetchEmployees(); // 重新加載資料
     } catch (error) {
       console.error('Error updating employee:', error);
-      alert('更新失敗，請檢查伺服器是否正常運行！');
+      alert('更新失敗，伺服器錯誤，請檢查輸入資料格式是否正確！');
     }
   };
 
   //* delete handle **********************************************
   const handleDelete = async (e_id) => {
+    
     try {
         const response = await axios.delete(`http://localhost:3305/employee/${e_id}`);
         console.log('Employee deleted:', response.data);
@@ -250,6 +244,7 @@ function EmployeePage() {
       totalMonthlySalary,
       totalWeeklySalary
     });
+    
   };
 
   // Calculate age from birthdate
@@ -295,7 +290,7 @@ function EmployeePage() {
     }
     return '/default.jpg';  // 如果沒有照片，使用預設圖片
   };
-
+  
   
   return (
   <div className="container">
@@ -443,15 +438,23 @@ function EmployeePage() {
 
         {/* 統計 */}
         <div className="stats-container">
-            <button onClick={() => setShowStatsModal(true)}>顯示統計</button>
+            <button onClick={() => {setShowStatsModal(true); calculateStatistics();} }>顯示統計</button>
             {showStatsModal && (
               <div className="modal-overlay">
-                <div className="modal-content">
+                <div className="stats-modal-content">
                 <span className="close" onClick={() =>setShowStatsModal(false)}>&times;</span>
                 <h3>員工統計</h3>
-                  
+                  <div className="section1">
+                    <h4>所有員工：</h4>
+                    <p>全年總薪水: ${employeeStats.totalAnnualSalary.toFixed(2)}</p>
+                    <p>每月總薪水: ${employeeStats.totalMonthlySalary.toFixed(2)}</p>
+                    <p>每週總薪水: ${employeeStats.totalWeeklySalary.toFixed(2)}</p>
+                  </div>
+
+                  <hr/>
+                  <div className="section2">
                   <div className='filter'>
-                  <div>
+ 
                     <label>選擇職等：
                       <select value={selectedGrade} onChange={(e) => setSelectedGrade(e.target.value)}>
                         <option value="">所有職等</option>
@@ -466,23 +469,15 @@ function EmployeePage() {
                         <option value="員任十等">員任十等</option>
                       </select>
                     </label>
-                    <button onClick={calculateStatistics}>计算</button>
-
-                  </div>
+                    <button onClick={calculateStatistics}>統 計</button>
                   </div> 
 
                   <div className='result'>
-                  <hr/>
-                  <p>符合條件的總員工人數: {employeeStats.totalEmployees}</p>
+                  <h4>符合條件的員工：</h4>  
+                  <p>總員工人數: {employeeStats.totalEmployees}</p>
                   <p>平均年齡: {employeeStats.avgAge.toFixed(2)} 歲</p>
                   <p>平均薪資: ${employeeStats.avgSalary.toFixed(2)}</p>
-                  <p></p>
-                  <p></p>
-                  <p></p>
-                  <p>全年總薪水: ${employeeStats.totalAnnualSalary.toFixed(2)}</p>
-                  <p>每月總薪水: ${employeeStats.totalMonthlySalary.toFixed(2)}</p>
-                  <p>每週總薪水: ${employeeStats.totalWeeklySalary.toFixed(2)}</p>
-
+                  </div>
                 </div>
                 </div>
               </div>
@@ -644,7 +639,8 @@ function EmployeePage() {
                 name="salary"
                 value={editEmployee.salary}
                 onChange={(e) =>
-                    setEditEmployee({ ...editEmployee, salary: e.target.value })
+                    
+                    setEditEmployee({ ...editEmployee, salary:  parseInt(e.target.value, 10)  })
                 }
                 />
             </label>
