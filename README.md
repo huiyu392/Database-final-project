@@ -1,4 +1,4 @@
-<img width="1286" height="933" alt="image" src="https://github.com/user-attachments/assets/b7bc2042-0e8e-4df2-a659-027975f9d132" /># 資料庫專題實作 - 人員派遣系統
+# 資料庫專題實作 - 人員派遣系統
 完成日 2025/01/05 
 
 ## 簡介
@@ -22,15 +22,12 @@ npm start
 ### 部分畫面展示
 - 首頁
   <img width="1198" height="991" alt="image" src="https://github.com/user-attachments/assets/76ff06e9-7913-4ca1-ac39-ecde19c4f21c" />
-  
 - 員工管理
   <img width="1643" height="1013" alt="image" src="https://github.com/user-attachments/assets/199a9bd2-c0ae-49db-a99f-5296dddcf3b6" />
 - 國家管理
   <img width="1323" height="882" alt="image" src="https://github.com/user-attachments/assets/95c1dca0-6b0b-448b-82f4-b5fbd4cd187f" />
-
 - 外派管理
   <img width="1371" height="809" alt="image" src="https://github.com/user-attachments/assets/f6eef5c3-3088-4e69-b3e8-83f1c176b015" />
-
 - 眷屬管理
   <img width="1415" height="951" alt="image" src="https://github.com/user-attachments/assets/59390906-faff-49a6-9a75-281ef4e186ca" />
 
