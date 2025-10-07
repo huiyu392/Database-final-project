@@ -1,4 +1,4 @@
-<img width="923" height="632" alt="image" src="https://github.com/user-attachments/assets/3306bb0c-73b7-4f21-8bc1-50bff9762c59" /># 資料庫專題實作 - 人員派遣系統
+# 資料庫專題實作 - 人員派遣系統
 完成日 2025/01/05 
 
 ## 簡介
