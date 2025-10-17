@@ -6,7 +6,7 @@
 系統專為外交部設計，整合員工及眷屬資訊，提升外派管理效率。具備資料檢索、列印、分析與統計功能，強化人力資源規劃與外派人員分布監控，提升透明度與工作效率
 
 ### 環境架構
-<img width="40%" height="40%" alt="image" src="https://github.com/user-attachments/assets/9eb2e4a0-3dc7-4574-906d-f0c5a8150825" />
+<img width="60%" height="60%" alt="image" src="https://github.com/user-attachments/assets/9eb2e4a0-3dc7-4574-906d-f0c5a8150825" />
 
 ### ER MODEL
 <img width="2322" height="1386" alt="image" src="https://github.com/user-attachments/assets/7d0c12f1-0703-4a90-9f4a-36e5cab98e3d" />
